@@ -1,6 +1,8 @@
 #import "Wallet.h"
 #import <PassKit/PassKit.h>
 
+static NSString *const kRejectCode = @"wallet";
+
 @interface Wallet() <PKAddPassesViewControllerDelegate>
 
 @property (nonatomic, copy) RCTPromiseResolveBlock resolveBlock;
