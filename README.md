@@ -1,17 +1,10 @@
-# react-native-wallet
+# React Native Wallet
 
-## Getting started
+Copy from (https://github.com/erikpoort/react-native-wallet/) that works on React Native 0.61.
 
-`$ npm install react-native-wallet --save`
+Insert on podfile:
 
-### Mostly automatic installation
+pod 'react-native-wallet', :podspec => '../node_modules/react-native-wallet/react-native-wallet.podspec'
 
-`$ react-native link react-native-wallet`
-
-## Usage
-```javascript
-import Wallet from 'react-native-wallet';
-
-// TODO: What to do with the module?
-Wallet;
-```
+After:
+pod install
