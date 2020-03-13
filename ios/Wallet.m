@@ -72,18 +72,20 @@ RCT_EXPORT_METHOD(
     for (id pass in passes) {
         [self.passLibrary removePass:pass];
     }
+    
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        UIViewController *viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
 
-    UIViewController *viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+        PKAddPassesViewController *passController = [[PKAddPassesViewController alloc] initWithPass:self.pass];
+        passController.delegate = self;
+        self.resolveBlock = resolve;
 
-    PKAddPassesViewController *passController = [[PKAddPassesViewController alloc] initWithPass:self.pass];
-    passController.delegate = self;
-    self.resolveBlock = resolve;
+        while (viewController.presentedViewController) {
+            viewController = viewController.presentedViewController;
+        }
 
-    while (viewController.presentedViewController) {
-        viewController = viewController.presentedViewController;
-    }
-
-    [viewController presentViewController:passController animated:YES completion:nil];
+        [viewController presentViewController:passController animated:YES completion:nil];
+    });
 }
 
 #pragma mark - PKAddPassesViewControllerDelegate
