@@ -68,22 +68,24 @@ RCT_EXPORT_METHOD(
     }
 
     self.passLibrary = [[PKPassLibrary alloc] init];
-    // if ([self.passLibrary containsPass:self.pass]) {
-    //     resolve(@(YES));
-    //     return;
-    // }
-
-    UIViewController *viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
-
-    PKAddPassesViewController *passController = [[PKAddPassesViewController alloc] initWithPass:self.pass];
-    passController.delegate = self;
-    self.resolveBlock = resolve;
-
-    while (viewController.presentedViewController) {
-        viewController = viewController.presentedViewController;
+    NSArray<PKPass *> *passes = [self.passLibrary passes];
+    for (id pass in passes) {
+        [self.passLibrary removePass:pass];
     }
+    
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        UIViewController *viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
 
-    [viewController presentViewController:passController animated:YES completion:nil];
+        PKAddPassesViewController *passController = [[PKAddPassesViewController alloc] initWithPass:self.pass];
+        passController.delegate = self;
+        self.resolveBlock = resolve;
+
+        while (viewController.presentedViewController) {
+            viewController = viewController.presentedViewController;
+        }
+
+        [viewController presentViewController:passController animated:YES completion:nil];
+    });
 }
 
 #pragma mark - PKAddPassesViewControllerDelegate
@@ -101,5 +103,4 @@ RCT_EXPORT_METHOD(
 		self.pass = nil;
 	}];
 }
-
 @end
