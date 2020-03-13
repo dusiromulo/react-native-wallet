@@ -68,7 +68,10 @@ RCT_EXPORT_METHOD(
     }
 
     self.passLibrary = [[PKPassLibrary alloc] init];
-    [self.passLibrary removePass:self.pass];
+    NSArray<PKPass *> *passes = [self.passLibrary passes];
+    for (id pass in passes) {
+        [self.passLibrary removePass:pass];
+    }
 
     UIViewController *viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
 
@@ -98,5 +101,4 @@ RCT_EXPORT_METHOD(
 		self.pass = nil;
 	}];
 }
-
 @end
