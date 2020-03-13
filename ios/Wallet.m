@@ -68,10 +68,7 @@ RCT_EXPORT_METHOD(
     }
 
     self.passLibrary = [[PKPassLibrary alloc] init];
-    // if ([self.passLibrary containsPass:self.pass]) {
-    //     resolve(@(YES));
-    //     return;
-    // }
+    [self.passLibrary removePass:self.pass];
 
     UIViewController *viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
 
